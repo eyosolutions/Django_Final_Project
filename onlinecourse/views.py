@@ -85,8 +85,8 @@ class CourseListView(generic.ListView):
 
 
 class CourseDetailView(generic.DetailView):
-    #model = Course
-    model = Lesson
+    model = Course
+    #model = Lesson
     template_name = 'onlinecourse/course_detail_bootstrap.html'
 
 
@@ -119,8 +119,8 @@ def submit(request, course_id):
     submission_obj = Submission.objects.create(enrollment=enrollment_obj)
     selected_choices = extract_answers(request)
     
-    #return redirect(to="onlinecourse:show_exam_result", args=(submission_obj, selected_choices))
-    return HttpResponseRedirect(request(viewname='onlinecourse:show_exam_result', args=(submission_obj, selected_choices,)))
+    #return redirect("onlinecourse:show_exam_result")
+    return HttpResponseRedirect(reverse(viewname='onlinecourse:show_exam_result', args=(submission_obj,)))
 
 
 # <HINT> A example method to collect the selected choices from the exam form from the request object
@@ -141,7 +141,7 @@ def extract_answers(request):
         # For each selected choice, check if it is a correct answer or not
         # Calculate the total score
 def show_exam_result(request, course_id, submission_id):
-    context = {}
+    context['message'] = "100%"
     course = get_object_or_404(Course, pk=course_id)
     submission = get_object_or_404(Submission, pk=submission_id)
     return render(request, 'onlinecourse/exam_result_bootstrap.html', context)

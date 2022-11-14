@@ -74,12 +74,15 @@
             <!-- <HINT> For each question choice, you may create a checkbox input like
             <input type="check" name="choice_{{choice.id}}" id="{{choice.id}}" ...>
             -->
+
+           
             <button data-toggle="collapse" data-target="#exam" class="btn btn-primary btn-block">Start Exam</button>
             
             <div id="exam" class="collapse">
                 <!-- A choice submission form example -->
                 <form id="questionform" action="{% url 'onlinecourse:submit' %}" method="post">
                     <!-- ... for each question in the course ... -->
+                    {% for lesson in course.lesson_set.all %}
                     {% for question in lesson.question_set.all %}
                     <div class="card mt-1">
                         <div class="card-header"><h5>{{ question.question_text}}</h5></div>
@@ -97,9 +100,11 @@
                             {% endfor %}
                         </div>
                     </div>
-                    {% endfor %}       
+                    {% endfor %} 
+                    {% endfor %}      
                     <input class="btn btn-success btn-block" type="submit" value="Submit">
                 </form>
+                
             </div>
             <!--Check here to see more details Bootstrap checkbox
              https://www.w3schools.com/bootstrap4/bootstrap_forms_inputs.asp-->
